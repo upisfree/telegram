@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <title>Telegram Web</title>
+
+    <style>
+input {
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.chat {
+  position: relative;
+  width: 256px;
+  height: 64px;
+  margin-bottom: 40px;
+  padding: 5px;
+}
+
+.chat.active {
+  background: rgba(0, 0, 0, 0.085);
+}
+
+.chat:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.author {
+  font-weight: bold;
+  display: block;
+}
+
+.message {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+}
+
+.chat img {
+  width: 64px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+    </style>
+  </head>
+  
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <input type="text" id="message">
+    <button>Отправить</button>
+
+    <div class="chats"></div>
+
+    <script src="./lib/tdweb/tdweb.js"></script>
+    <script type="module" src="./src/telegram.js"></script>
+  </body>
+</html>
