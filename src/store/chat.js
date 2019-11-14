@@ -8,6 +8,8 @@ class ChatStore extends EventEmitter {
     this.reset();
 
     this.addTdListener();
+
+    this.setMaxListeners(100);
   }
 
   reset() {

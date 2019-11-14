@@ -11,11 +11,14 @@ class FileStore extends EventEmitter {
     this.reset();
 
     this.addTdListener();
+
+    this.setMaxListeners(100);
   }
 
   reset() {
     this.items = new Map();
     this.blobItems = new Map();
+    this.urls = new Map();
     this.downloads = new Map();
     this.uploads = new Map();
   }
@@ -46,7 +49,7 @@ class FileStore extends EventEmitter {
     }
 
     this.handleDownloads(file);
-    this.handleUploads(file);
+    // this.handleUploads(file);
   }
 
   handleDownloads(file) {
@@ -254,6 +257,28 @@ class FileStore extends EventEmitter {
 
   deleteBlob(fileId) {
     this.blobItems.delete(fileId);
+  }
+
+  getBlobUrl(blob) {
+    if (!blob) {
+      return null;
+    }
+
+    if (this.urls.has(blob)) {
+      return this.urls.get(blob);
+    }
+
+    const url = URL.createObjectURL(blob);
+
+    this.urls.set(blob, url);
+
+    return url;
+  }
+
+  deleteBlobUrl(blob) {
+    if (this.urls.has(blob)) {
+      this.urls.delete(blob);
+    }
   }
 
   emitUpdate(update) {
