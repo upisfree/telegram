@@ -1,0 +1,30 @@
+chat-placeholder {
+  display: block;
+  width: 300px; /* го как в макетах */
+  height: 100px;
+}
+
+chat-placeholder .avatar {
+  float: left;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+chat-placeholder .title,
+chat-placeholder .content {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+chat-placeholder .title {
+  font-weight: bold;
+}
+
+chat-placeholder .content {
+
+}

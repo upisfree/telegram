@@ -96,26 +96,9 @@ class ChatPlaceholder extends HTMLElement {
 
   render() {
     this.innerHTML = `
-      <style>
-.avatar {
-  float: left;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: #ccc;
-}
-
-.title {
-  font-weight: bold;
-  display: block;
-}
-      </style>
-
-      <div>
-        <img class="avatar">
-        <span class="title">${ this.titleText }</span>
-        <span class="content">${ this.content }</span>        
-      </div>
+<img class="avatar">
+<span class="title">${ this.titleText }</span>
+<span class="content">${ this.content }</span>
     `;
   }
 
