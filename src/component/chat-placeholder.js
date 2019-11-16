@@ -14,6 +14,7 @@ class ChatPlaceholder extends HTMLElement {
 
     this.chat = ChatStore.get(chatId);
     this.chatId = chatId;
+    this.isFirstTimeCreated = true;
 
     this.titleText = this.chat.title;
     this.contentText = 'text';
@@ -35,13 +36,18 @@ class ChatPlaceholder extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
+    if (this.isFirstTimeCreated) {
+      this.render();      
+      this.updateAvatar();
+      this.updateTitle();
+    }
+
+    this.isFirstTimeCreated = false;
 
     this.updateContent();
     this.updateTime();
     this.updateUnread();
     this.updateMute();
-    this.updateAvatar();
   }
 
   disconnectedCallback() {
@@ -65,7 +71,7 @@ class ChatPlaceholder extends HTMLElement {
         break;
 
       default:
-        this.contentText = 'Вложение';
+        this.contentText = 'Attachment';
     }
 
     if (this.contentElement) {
@@ -236,7 +242,17 @@ class ChatPlaceholder extends HTMLElement {
     }
   }
 
+  clearNodes() {
+    let i = this.shadowRoot.childNodes.length;
+
+    while (i--) {
+      this.shadowRoot.removeChild(this.shadowRoot.lastChild);
+    }
+  }
+
   render() {
+    this.clearNodes();
+
     this.avatarElement = document.createElement('img');
     this.avatarElement.className = 'avatar';
 

@@ -2,6 +2,7 @@ import TdController from '../core/td.js';
 import ApplicationStore from '../store/application.js';
 import ChatStore from '../store/chat.js';
 import ChatPlaceholder from './chat-placeholder.js';
+import { orderCompare } from '../utils/misc.js';
 
 // TODO: to const
 const CHAT_SLICE_LIMIT = 25;
@@ -13,10 +14,16 @@ class ChatList extends HTMLElement {
     this.attachShadow({ mode: 'open' });
 
     this.chatIds = [];
+    this.chatPlaceholders = new Map();
+
+    this.loadingChats = false;
 
     ApplicationStore.addListener('updateAuthorizationState', this.onAuthUpdate.bind(this));
     ChatStore.addListener('updateChatLastMessage', this.onUpdate.bind(this));
+    ChatStore.addListener('updateChatIsPinned', this.onUpdate.bind(this));
+    ChatStore.addListener('updateChatDraftMessage', this.onUpdate.bind(this));
     ChatStore.addListener('updateChatOrder', this.onUpdate.bind(this));
+    ChatStore.addListener('updateNewChat', this.onUpdate.bind(this));
   }
 
   connectedCallback() {
@@ -41,34 +48,30 @@ class ChatList extends HTMLElement {
   }
 
   onUpdate(update) {
-    const { chat_id, order, last_message } = update;
-    const chat = ChatStore.get(chat_id);
-
-    if (chat_id !== this.chatId || !chat) {
-      return;
-    }
-
     switch (update['@type']) {
-      case 'updateChatLastMessage': {
-        // switch case
-        if (last_message.content['@type'] === 'messageText') {
-          this.text = last_message.content.text.text;
+      case 'updateChatLastMessage':
+      case 'updateChatIsPinned':
+      case 'updateChatDraftMessage':
+      case 'updateChatOrder':
+        if (!this.chatIds.includes(update.chat_id)) {
+          this.chatIds.push(update.chat_id);
         }
 
-        console.log(update);
+        const orderedChatIds = this.chatIds.sort((a, b) => {
+          return orderCompare(ChatStore.get(b).order, ChatStore.get(a).order);
+        });
+
+        this.render(orderedChatIds);
 
         break;
-      }
     }
-
-    this.chat = chat;
-
-    this.render();
   }
 
   loadChats() {
     let offsetOrder = '9223372036854775807'; // 2^63 - 1
     let offsetChatId = 0;
+
+    this.loadingChats = true;
 
     TdController.send({
       '@type': 'getChats',
@@ -76,9 +79,11 @@ class ChatList extends HTMLElement {
       offset_order: offsetOrder,
       limit: CHAT_SLICE_LIMIT
     }).then(result => {
+      this.loadingChats = false;
+
       this.chatIds = result.chat_ids;
 
-      this.render();
+      this.render(this.chatIds);
     });
   }
 
@@ -90,14 +95,26 @@ class ChatList extends HTMLElement {
     }
   }
 
-  render() {
+  render(orderedIds) {
+    if (this.loadingChats) {
+      console.error('загрузка чатов ещё не всё');
+
+      return;
+    }
+
     this.clearNodes();
 
     this.shadowRoot.appendChild(this.getStyleTag());
 
-    this.chatIds.forEach(id => {
-      this.shadowRoot.appendChild(new ChatPlaceholder(id));
+    orderedIds.forEach(id => {
+      if (!this.chatPlaceholders.get(id)) {
+        this.chatPlaceholders.set(id, new ChatPlaceholder(id));
+      }
+
+      this.shadowRoot.appendChild(this.chatPlaceholders.get(id));
     });
+
+    console.log(this.chatPlaceholders);
   }
 
   getStyleTag() {
