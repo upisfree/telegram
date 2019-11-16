@@ -295,6 +295,19 @@ class ChatStore extends EventEmitter {
 
         break;
       }
+
+      case 'updateChatOnlineMemberCount': {
+        const { chat_id, online_member_count } = update;
+        const chat = this.get(chat_id);
+
+        if (chat) {
+          this.assign(chat, { online_member_count });
+        }
+
+        this.emitFastUpdate(update);
+
+        break;
+      }
     }
   }
 

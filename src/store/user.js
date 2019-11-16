@@ -1,5 +1,6 @@
 import EventEmitter from '../../lib/events.js';
 import TdController from '../core/td.js';
+import OptionStore from './option.js';
 
 class UserStore extends EventEmitter {
   constructor() {
@@ -8,6 +9,8 @@ class UserStore extends EventEmitter {
     this.reset();
 
     this.addTdListener();
+
+    this.setMaxListeners(100);
   }
 
   reset() {
@@ -45,6 +48,20 @@ class UserStore extends EventEmitter {
     }
   }
 
+  getMyId() {
+    const myId = OptionStore.get('my_id');
+    
+    if (!myId) {
+      return null;
+    }
+
+    if (!myId.value) {
+      return null;
+    }
+
+    return myId.value;
+  }
+
   addTdListener() {
     TdController.addListener('update', this.onUpdate.bind(this));
   }
@@ -63,7 +80,7 @@ class UserStore extends EventEmitter {
 
   emitUpdate(update) {
     this.emit(update['@type'], update);
-  }  
+  }
 };
 
 const store = new UserStore();
