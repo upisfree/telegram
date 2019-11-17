@@ -70,27 +70,11 @@ class ChatView extends HTMLElement {
 
   onUpdate(update) {
     switch (update['@type']) {
-      case 'getMessageResult':
-        // this.render();
-        console.log('getMessageResult', update);
+      case 'updateChatLastMessage':
+        console.log('updateChatLastMessage', update.last_message);
+        this.newMessage(update.last_message);
 
         break;
-
-      // case 'updateChatLastMessage':
-      // case 'updateChatIsPinned':
-      // case 'updateChatDraftMessage':
-      // case 'updateChatOrder':
-      //   if (!this.chatIds.includes(update.chat_id)) {
-      //     this.chatIds.push(update.chat_id);
-      //   }
-
-      //   const orderedChatIds = this.chatIds.sort((a, b) => {
-      //     return orderCompare(ChatStore.get(b).order, ChatStore.get(a).order);
-      //   });
-
-      //   this.render(orderedChatIds);
-
-      //   break;
     }
   }
 
@@ -213,11 +197,15 @@ class ChatView extends HTMLElement {
 
     this.createHeader();
 
-    this.messages.forEach(message => {
-      const messageElement = new ChatMessage(message);
+    this.messages.forEach(this.newMessage.bind(this));
+  }
 
-      this.shadowRoot.appendChild(messageElement);
-    });
+  newMessage(message) {
+    const messageElement = new ChatMessage(message);
+
+    this.shadowRoot.appendChild(messageElement);
+
+    this.scroll(0, this.scrollHeight);
   }
 
   getStyleTag() {
@@ -227,10 +215,13 @@ class ChatView extends HTMLElement {
 :host {
   display: block;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 442px;
-  width: calc(100% - 440px);
+  width: calc(100vw - 144px - 442px);
+  height: calc(100% - 150px);
   max-width: 1260px;
+  padding: 72px;
+  overflow-y: auto;
   background: #e6ebee;
 }
 
@@ -244,9 +235,12 @@ class ChatView extends HTMLElement {
 
 .user-info {
   position: fixed;
+  top: 0;
+  margin-left: -72px;
   width: 100%;
   padding: 6.5px 20px;
   background: #fff;
+  z-index: 10;
 }
 
 .avatar {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="37px" viewBox="0 0 44 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>Bubble</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M-5.99997119,33 C-6.28045562,33 -6.54804704,32.8822073 -6.73747527,32.6753536 C-7.11047529,32.2680413 -7.08265972,31.6354732 -6.67533214,31.26249 C-4.49586868,29.2666259 -2.95395252,27.1065797 -2.04958366,24.7823513 C-0.876197656,21.7667487 -0.193003102,18.8392983 4.17443857e-14,16 L4.17443857e-14,16 L4.17443857e-14,12 C4.08562073e-14,5.372583 5.372583,1.21743675e-15 12,0 L21,0 C27.627417,-1.21743675e-15 33,5.372583 33,12 L33,21 C33,27.627417 27.627417,33 21,33 Z" id="path-1"></path>
+        <filter x="-8.8%" y="-7.6%" width="117.5%" height="121.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0621962482   0 0 0 0 0.138574144   0 0 0 0 0.185037364  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="In-/-Whole" transform="translate(9.000000, 1.000000)">
+            <g id="Bubble">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

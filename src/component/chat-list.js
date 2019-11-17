@@ -129,9 +129,11 @@ class ChatList extends HTMLElement {
 :host {
   display: block;
   width: 420px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px 10px;
   background: #fff;
   border-right: 1px solid #dedfe3;
-  padding: 10px 10px;
 }
     `;
 
