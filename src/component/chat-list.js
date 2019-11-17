@@ -8,6 +8,8 @@ import { orderCompare } from '../utils/misc.js';
 // TODO: to const
 const CHAT_SLICE_LIMIT = 25;
 
+const ACTIVE_CLASS_NAME = 'active';
+
 class ChatList extends HTMLElement {
   constructor() {
     super();
@@ -143,9 +145,16 @@ class ChatList extends HTMLElement {
   onPlaceholderClick(placeholder) {
     if (this.chatView) {
       this.parentNode.removeChild(this.chatView);
+
+      let placeholders = this.shadowRoot.querySelectorAll('chat-placeholder');
+
+      for (let i = 0; i < placeholders.length; i++) {
+        placeholders[i].classList.remove(ACTIVE_CLASS_NAME);
+      }
     }
 
     this.currentChatId = placeholder.chatId;
+    placeholder.classList.add(ACTIVE_CLASS_NAME);
 
     this.chatView = new ChatView(this.currentChatId);
 
