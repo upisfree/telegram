@@ -23,7 +23,6 @@ class ChatList extends HTMLElement {
 
     this.loadingChats = false;
 
-    ApplicationStore.addListener('updateAuthorizationState', this.onAuthUpdate.bind(this));
     ChatStore.addListener('updateChatLastMessage', this.onUpdate.bind(this));
     ChatStore.addListener('updateChatIsPinned', this.onUpdate.bind(this));
     ChatStore.addListener('updateChatDraftMessage', this.onUpdate.bind(this));
@@ -32,24 +31,15 @@ class ChatList extends HTMLElement {
   }
 
   connectedCallback() {
-    // this.render();
-
-    // this.loadChats();
+    this.loadChats();
   }
 
-  onAuthUpdate(update) {
-    switch (update['@type']) {
-      case 'updateAuthorizationState': {
-        switch (update.authorization_state['@type']) {
-          case 'authorizationStateReady':
-            this.loadChats();
-
-            break;
-        }
-
-        break;
-      }
-    }
+  disconnectedCallback() {
+    ChatStore.removeListener('updateChatLastMessage', this.onUpdate.bind(this));
+    ChatStore.removeListener('updateChatIsPinned', this.onUpdate.bind(this));
+    ChatStore.removeListener('updateChatDraftMessage', this.onUpdate.bind(this));
+    ChatStore.removeListener('updateChatOrder', this.onUpdate.bind(this));
+    ChatStore.removeListener('updateNewChat', this.onUpdate.bind(this));
   }
 
   onUpdate(update) {

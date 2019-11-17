@@ -57,11 +57,19 @@ class ChatPlaceholder extends HTMLElement {
     ChatStore.removeListener('updateChatReadInbox', this.onUpdate.bind(this));
     ChatStore.removeListener('updateUserChatAction', this.onUpdate.bind(this));
     ChatStore.removeListener('updateChatNotificationSettings', this.onUpdate.bind(this));
+
+    if (this.chat.type['@type'] === 'chatTypePrivate') {
+      UserStore.removeListener('updateUserStatus', this.onUserUpdate.bind(this));
+    }
   }
 
   updateContent(lastMessage) {
     if (lastMessage === undefined) {
       lastMessage = this.chat.last_message;
+    }
+
+    if (lastMessage === undefined) {
+      return;
     }
 
     switch (lastMessage.content['@type']) {
@@ -80,8 +88,12 @@ class ChatPlaceholder extends HTMLElement {
   }
 
   updateTime(time) {
-    if (time === undefined) {
+    if (time === undefined && this.chat.last_message !== undefined) {
       time = this.chat.last_message.date;
+    }
+
+    if (time === undefined) {
+      return;
     }
 
     const date = new Date(time * 1000); // Date хочет миллисекунды, а телега отдаёт секунды

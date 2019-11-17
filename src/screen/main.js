@@ -8,47 +8,11 @@ class MainScreen extends HTMLElement {
     super();
 
     this.attachShadow({ mode: 'open' });
-
-    // ChatStore.addListener('updateChatLastMessage', this.onUpdate.bind(this));
-    // ChatStore.addListener('updateChatPhoto', this.onUpdate.bind(this));
-    // ChatStore.addListener('updateChatTitle', this.onUpdate.bind(this));
-    // ChatStore.addListener('updateChatUnreadMentionCount', this.onUpdate.bind(this));
-    // ChatStore.addListener('updateUserChatAction', this.onUpdate.bind(this));
   }
 
   connectedCallback() {
     this.render();
   }
-
-  // onUpdate(update) {
-  //   const { chat_id, order, last_message } = update;
-  //   const chat = ChatStore.get(chat_id);
-
-  //   if (chat_id !== this.chatId || !chat) {
-  //     return;
-  //   }
-
-  //   switch (update['@type']) {
-  //     case 'updateChatLastMessage':
-  //       this.updateContent(last_message);
-
-  //       console.log(update);
-
-  //       break;
-
-  //     case 'updateChatTitle':
-  //       this.updateTitle();
-
-  //       break;
-
-  //     case 'updateChatPhoto':
-  //       this.updateAvatar();
-
-  //       break;
-  //   }
-
-  //   this.chat = chat;
-  // }
 
   render() {
     this.chatListElement = new ChatList();
@@ -72,16 +36,6 @@ class MainScreen extends HTMLElement {
     `;
 
     return tag;
-  }
-
-  // onLoad={this.handleLoad}
-
-  disconnectedCallback() {
-    // ChatStore.removeListener('updateChatLastMessage', this.onUpdate.bind(this));
-    // ChatStore.removeListener('updateChatPhoto', this.onUpdate.bind(this));
-    // ChatStore.removeListener('updateChatTitle', this.onUpdate.bind(this));
-    // ChatStore.removeListener('updateChatUnreadMentionCount', this.onUpdate.bind(this));
-    // ChatStore.removeListener('updateUserChatAction', this.onUpdate.bind(this));
   }
 }
 

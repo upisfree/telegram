@@ -19,9 +19,7 @@ class ChatView extends HTMLElement {
     this.chatId = chatId;
     this.messages;
 
-    // ApplicationStore.addListener('updateAuthorizationState', this.onAuthUpdate.bind(this));
     ChatStore.addListener('updateChatLastMessage', this.onUpdate.bind(this));
-    ChatStore.addListener('getMessageResult', this.onUpdate.bind(this));
     // ChatStore.addListener('updateChatIsPinned', this.onUpdate.bind(this));
     // ChatStore.addListener('updateChatDraftMessage', this.onUpdate.bind(this));
     // ChatStore.addListener('updateChatOrder', this.onUpdate.bind(this));
@@ -53,26 +51,20 @@ class ChatView extends HTMLElement {
     });
   }
 
-  // onAuthUpdate(update) {
-  //   switch (update['@type']) {
-  //     case 'updateAuthorizationState': {
-  //       switch (update.authorization_state['@type']) {
-  //         case 'authorizationStateReady':
-  //           // this.loadChats();
+  disconnectedCallback() {
+    ChatStore.removeListener('updateChatLastMessage', this.onUpdate.bind(this));
 
-  //           break;
-  //       }
-
-  //       break;
-  //     }
-  //   }
-  // }
+    if (this.chat.type['@type'] === 'chatTypePrivate') {
+      UserStore.removeListener('updateUserStatus', this.onUserUpdate.bind(this));
+    }
+  }
 
   onUpdate(update) {
     switch (update['@type']) {
       case 'updateChatLastMessage':
-        console.log('updateChatLastMessage', update.last_message);
-        this.newMessage(update.last_message);
+        if (update.last_message.chat_id === this.chatId) {
+          this.newMessage(update.last_message);          
+        }
 
         break;
     }
@@ -216,7 +208,7 @@ class ChatView extends HTMLElement {
   display: block;
   position: absolute;
   bottom: 0;
-  left: 442px;
+  left: 441px;
   width: calc(100vw - 144px - 442px);
   height: calc(100% - 150px);
   max-width: 1260px;

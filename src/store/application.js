@@ -30,33 +30,27 @@ class ApplicationStore extends EventEmitter {
             break;
   
           case 'authorizationStateWaitPhoneNumber': {
-            // if (this.setPhoneNumberRequest) {
-            //   this.setPhoneNumberRequest();
-
-            //   this.setPhoneNumberRequest = null;
-            // }
-
-            TdController.send({
-              '@type': 'setAuthenticationPhoneNumber',
-              phone_number: prompt('phone number?')
-            });
+            // TdController.send({
+            //   '@type': 'setAuthenticationPhoneNumber',
+            //   phone_number: prompt('phone number?')
+            // });
 
             break;
           }
 
           case 'authorizationStateWaitCode':
-            TdController.send({
-              '@type': 'checkAuthenticationCode',
-              code: prompt('code?')
-            });
+            // TdController.send({
+            //   '@type': 'checkAuthenticationCode',
+            //   code: prompt('code?')
+            // });
 
             break;
 
           case 'authorizationStateWaitPassword':
-            TdController.send({
-              '@type': 'checkAuthenticationPassword',
-              password: prompt(`cloud password, hint: ${ this.authorizationState.password_hint }`)
-            });
+            // TdController.send({
+            //   '@type': 'checkAuthenticationPassword',
+            //   password: prompt(`cloud password, hint: ${ this.authorizationState.password_hint }`)
+            // });
 
             break;
 

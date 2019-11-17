@@ -139,6 +139,8 @@ class ChatMessage extends HTMLElement {
   width: fit-content;
   max-width: 70%;
   padding: 6px 10px;
+  word-break: break-word;
+  white-space: normal;
   font-size: 15px;
   word-break: break-all;
   background: #fff;
