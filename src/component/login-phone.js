@@ -33,7 +33,13 @@ class LoginPhone extends HTMLElement {
     TdController.send({
       '@type': 'setAuthenticationPhoneNumber',
       phone_number: this.phoneElement.value
+    }).catch(() => {
+      this.phoneElement.classList.add('invalid');
     });
+  }
+
+  onPhoneInput() {
+    this.phoneElement.classList.remove('invalid');
   }
 
   clearNodes() {
@@ -59,7 +65,8 @@ class LoginPhone extends HTMLElement {
 
     this.descriptionElement = document.createElement('p');
     this.descriptionElement.className = 'description';
-    this.descriptionElement.textContent = 'Please confirm your country and enter your phone number.';
+    // this.descriptionElement.textContent = 'Please confirm your country and enter your phone number.';
+    this.descriptionElement.textContent = 'Please enter your phone number.';
 
     this.countryElement = document.createElement('input');
     this.countryElement.className = 'country';
@@ -68,6 +75,7 @@ class LoginPhone extends HTMLElement {
     this.phoneElement = document.createElement('input');
     this.phoneElement.className = 'phone';
     this.phoneElement.placeholder = 'Phone Number';
+    this.phoneElement.addEventListener('input', this.onPhoneInput.bind(this));
 
     this.keepSignContainerElement = document.createElement('label');
     this.keepSignContainerElement.className = 'keep-sign-in';
@@ -93,7 +101,7 @@ class LoginPhone extends HTMLElement {
     this.shadowRoot.appendChild(this.logoElement);
     this.shadowRoot.appendChild(this.headerElement);
     this.shadowRoot.appendChild(this.descriptionElement);
-    this.shadowRoot.appendChild(this.countryElement);
+    // this.shadowRoot.appendChild(this.countryElement);
     this.shadowRoot.appendChild(this.phoneElement);
     this.keepSignContainerElement.appendChild(this.keepSignTextElement);
     this.keepSignContainerElement.appendChild(this.keepSignElement);
@@ -150,6 +158,10 @@ class LoginPhone extends HTMLElement {
 .phone:focus,
 .country:focus {
   border-color: #4ea4f6;  
+}
+
+.invalid {
+  border-color: #d4483e;
 }
 
 button {

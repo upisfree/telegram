@@ -20,9 +20,8 @@ class TdController extends EventEmitter {
       prefix: 'tdlib',
       readOnly: false,
       isBackground: false,
-      useDatabase: false,
+      useDatabase: true,
       wasmUrl: `${ WASM_FILE_NAME }?_sw-precache=${ WASM_FILE_HASH }`,
-      // onUpdate: onUpdate
     });
 
     this.client.onUpdate = update => {
@@ -49,7 +48,8 @@ class TdController extends EventEmitter {
       '@type': 'setTdlibParameters',
       parameters: {
           '@type': 'tdParameters',
-          use_test_dc: false,
+          use_test_dc: true,
+          // test_mode: true,
           api_id: ENV.API_ID,
           api_hash: ENV.API_HASH,
           system_language_code: navigator.language || 'en',
@@ -58,7 +58,7 @@ class TdController extends EventEmitter {
           application_version: '1', // тут строка
           use_secret_chats: false,
           use_message_database: true,
-          use_file_database: false,
+          use_file_database: true,
           database_directory: '/db',
           files_directory: '/'
       }

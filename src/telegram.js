@@ -39,6 +39,7 @@ ApplicationStore.addListener('updateAuthorizationState', update => {
         case 'authorizationStateWaitPhoneNumber':
         case 'authorizationStateWaitCode':
         case 'authorizationStateWaitPassword':
+        case 'authorizationStateWaitRegistration':
           if (document.body.contains(mainScreen)) {
             document.body.removeChild(mainScreen);
           }

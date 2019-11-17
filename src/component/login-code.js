@@ -13,6 +13,8 @@ class LoginPassword extends HTMLElement {
   }
 
   onCodeInput() {
+    this.codeElement.classList.remove('invalid');
+
     if (this.codeElement.value.toString().length === 5) {
       this.codeElement.disabled = true;
 
@@ -23,6 +25,7 @@ class LoginPassword extends HTMLElement {
         this.codeElement.disabled = false;
       }).catch(() => {
         this.codeElement.disabled = false;
+        this.codeElement.classList.add('invalid');
       });
     }
   }
@@ -111,6 +114,10 @@ class LoginPassword extends HTMLElement {
 
 .code:focus {
   border-color: #4ea4f6;  
+}
+
+.invalid {
+  border-color: #d4483e;
 }
     `;
 

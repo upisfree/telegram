@@ -3,6 +3,7 @@ import ApplicationStore from '../store/application.js';
 import LoginPhone from '../component/login-phone.js';
 import LoginCode from '../component/login-code.js';
 import LoginPassword from '../component/login-password.js';
+import LoginRegistration from '../component/login-registration.js';
 
 class LoginScreen extends HTMLElement {
   constructor() {
@@ -17,6 +18,7 @@ class LoginScreen extends HTMLElement {
     this.phoneElement = new LoginPhone();
     this.codeElement = new LoginCode();
     this.passwordElement = new LoginPassword();
+    this.registrationElement = new LoginRegistration();
 
     this.render();
   }
@@ -37,6 +39,7 @@ class LoginScreen extends HTMLElement {
             this.waitingForThePhone = true;
             this.waitingForTheCode = false;
             this.waitingForThePassword = false;
+            this.waitingForTheFalse = false;
 
             this.render();
 
@@ -46,6 +49,7 @@ class LoginScreen extends HTMLElement {
             this.waitingForThePhone = false;
             this.waitingForTheCode = true;
             this.waitingForThePassword = false;
+            this.waitingForTheFalse = false;
 
             this.render();
 
@@ -55,8 +59,19 @@ class LoginScreen extends HTMLElement {
             this.waitingForThePhone = false;
             this.waitingForTheCode = false;
             this.waitingForThePassword = true;
+            this.waitingForTheFalse = false;
 
             this.hint = update.authorization_state.password_hint;
+
+            this.render();
+
+            break;
+
+          case 'authorizationStateWaitRegistration':
+            this.waitingForThePhone = false;
+            this.waitingForTheCode = false;
+            this.waitingForThePassword = false;
+            this.waitingForTheRegistration = true;
 
             this.render();
 
@@ -89,6 +104,8 @@ class LoginScreen extends HTMLElement {
       this.shadowRoot.appendChild(this.passwordElement);
 
       this.passwordElement.passwordElement.placeholder = `Hint: ${ this.hint }***`;
+    } else if (this.waitingForTheRegistration) {
+      this.shadowRoot.appendChild(this.registrationElement);
     }
   }
 

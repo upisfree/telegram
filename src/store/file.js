@@ -288,6 +288,4 @@ class FileStore extends EventEmitter {
 
 const store = new FileStore();
 
-window.fileStore = store;
-
 export default store;

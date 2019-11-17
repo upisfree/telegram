@@ -85,6 +85,4 @@ class UserStore extends EventEmitter {
 
 const store = new UserStore();
 
-window.userStore = store;
-
 export default store;

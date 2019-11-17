@@ -1,7 +1,7 @@
 import TdController from '../core/td.js';
 import ApplicationStore from '../store/application.js';
 
-class LoginPassword extends HTMLElement {
+class LoginRegistration extends HTMLElement {
   constructor() {
     super();
 
@@ -12,17 +12,16 @@ class LoginPassword extends HTMLElement {
     this.render();
   }
 
-  onPasswordInput() {
-    this.codeElement.classList.remove('invalid');
-  }
-
   onNextButtonClick() {
     TdController.send({
-      '@type': 'checkAuthenticationPassword',
-      password: this.passwordElement.value
-    }).catch(() => {
-      this.passwordElement.classList.add('invalid');
+      '@type': 'registerUser',
+      first_name: this.firstNameElement.value,
+      last_name: this.lastNameElement.value
     });
+  }
+
+  onPhoneInput() {
+    this.lastNameElement.classList.remove('invalid');
   }
 
   clearNodes() {
@@ -38,34 +37,38 @@ class LoginPassword extends HTMLElement {
 
     this.shadowRoot.appendChild(this.getStyleTag());
 
-    this.monkeyElement = document.createElement('img');
-    this.monkeyElement.src = './assets/monkey-2.png';
-    this.monkeyElement.className = 'monkey';
+    this.logoElement = document.createElement('img');
+    this.logoElement.src = './assets/logo.svg';
+    this.logoElement.className = 'logo';
 
     this.headerElement = document.createElement('h2');
     this.headerElement.className = 'header';
-    this.headerElement.textContent = 'Enter a Password';
+    this.headerElement.textContent = 'Your name';
 
     this.descriptionElement = document.createElement('p');
     this.descriptionElement.className = 'description';
-    this.descriptionElement.textContent = 'Your account is protected with an additional password.';
+    // this.descriptionElement.textContent = 'Enter your name and add a profile picture.';
+    this.descriptionElement.textContent = 'Enter your name';
 
-    this.passwordElement = document.createElement('input');
-    this.passwordElement.className = 'password';
-    this.passwordElement.type = 'password';
-    this.passwordElement.placeholder = 'Password';
-    this.passwordElement.addEventListener('input', this.onPasswordInput.bind(this));
+    this.firstNameElement = document.createElement('input');
+    this.firstNameElement.className = 'first-name';
+    this.firstNameElement.placeholder = 'Name';
+
+    this.lastNameElement = document.createElement('input');
+    this.lastNameElement.className = 'last-name';
+    this.lastNameElement.placeholder = 'Last Name (optional)';
 
     this.nextButtonElement = document.createElement('button');
     this.nextButtonElement.addEventListener('click', this.onNextButtonClick.bind(this));
-    this.nextButtonElement.textContent = 'NEXT';
+    this.nextButtonElement.textContent = 'START MESSAGING';
 
 
 
-    this.shadowRoot.appendChild(this.monkeyElement);
+    this.shadowRoot.appendChild(this.logoElement);
     this.shadowRoot.appendChild(this.headerElement);
     this.shadowRoot.appendChild(this.descriptionElement);
-    this.shadowRoot.appendChild(this.passwordElement);
+    this.shadowRoot.appendChild(this.firstNameElement);
+    this.shadowRoot.appendChild(this.lastNameElement);
     this.shadowRoot.appendChild(this.nextButtonElement);
   }
 
@@ -81,7 +84,7 @@ class LoginPassword extends HTMLElement {
   text-align: center;
 }
 
-.monkey {
+.logo {
   width: 150px;
 }
 
@@ -101,7 +104,8 @@ class LoginPassword extends HTMLElement {
   font-size: 15px;
 }
 
-.password {
+.first-name,
+.last-name {
   display: block;
   width: 320px;
   margin: auto;
@@ -113,7 +117,8 @@ class LoginPassword extends HTMLElement {
   outline: none;
 }
 
-.password:focus {
+.first-name:focus,
+.last-name:focus {
   border-color: #4ea4f6;  
 }
 
@@ -141,6 +146,6 @@ button {
   }
 }
 
-customElements.define('login-password', LoginPassword);
+customElements.define('login-registration', LoginRegistration);
 
-export default LoginPassword;
+export default LoginRegistration;

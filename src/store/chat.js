@@ -334,6 +334,4 @@ class ChatStore extends EventEmitter {
 
 const store = new ChatStore();
 
-window.chatStore = store;
-
 export default store;
