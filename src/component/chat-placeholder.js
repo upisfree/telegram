@@ -298,6 +298,7 @@ class ChatPlaceholder extends HTMLElement {
   padding: 10px 10px;
   border-radius: 8px;
   cursor: pointer;
+  transition: background 50ms ease;
 }
 
 :host(:hover),

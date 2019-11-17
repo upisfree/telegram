@@ -65,7 +65,10 @@ class MainScreen extends HTMLElement {
   display: block;
   max-width: 1680px;
   height: 100vh;
-  background: yellow;
+  margin: auto;
+  border: 1px solid #dedfe3;
+  border-top: none;
+  border-bottom: none;
 }
     `;
 

@@ -2,6 +2,7 @@ import TdController from '../core/td.js';
 import ApplicationStore from '../store/application.js';
 import ChatStore from '../store/chat.js';
 import ChatPlaceholder from './chat-placeholder.js';
+import ChatView from './chat-view.js';
 import { orderCompare } from '../utils/misc.js';
 
 // TODO: to const
@@ -14,7 +15,9 @@ class ChatList extends HTMLElement {
     this.attachShadow({ mode: 'open' });
 
     this.chatIds = [];
+    this.currentChatId;
     this.chatPlaceholders = new Map();
+    this.chatView;
 
     this.loadingChats = false;
 
@@ -107,14 +110,16 @@ class ChatList extends HTMLElement {
     this.shadowRoot.appendChild(this.getStyleTag());
 
     orderedIds.forEach(id => {
-      if (!this.chatPlaceholders.get(id)) {
-        this.chatPlaceholders.set(id, new ChatPlaceholder(id));
+      let placeholder = this.chatPlaceholders.get(id);
+      if (!placeholder) {
+        placeholder = new ChatPlaceholder(id);
+        placeholder.addEventListener('click', this.onPlaceholderClick.bind(this, placeholder));
+
+        this.chatPlaceholders.set(id, placeholder);
       }
 
-      this.shadowRoot.appendChild(this.chatPlaceholders.get(id));
+      this.shadowRoot.appendChild(placeholder);
     });
-
-    console.log(this.chatPlaceholders);
   }
 
   getStyleTag() {
@@ -125,11 +130,24 @@ class ChatList extends HTMLElement {
   display: block;
   width: 420px;
   background: #fff;
+  border-right: 1px solid #dedfe3;
   padding: 10px 10px;
 }
     `;
 
     return tag;
+  }
+
+  onPlaceholderClick(placeholder) {
+    if (this.chatView) {
+      this.parentNode.removeChild(this.chatView);
+    }
+
+    this.currentChatId = placeholder.chatId;
+
+    this.chatView = new ChatView(this.currentChatId);
+
+    this.parentNode.appendChild(this.chatView);
   }
 }
 
